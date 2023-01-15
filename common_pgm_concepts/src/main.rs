@@ -22,16 +22,15 @@ fn main() {
     //let mut spaces = " ";
     //spaces = spaces.len();
     //Above will lead to error where we are mixing data types. Rust don't allow it!
-
-
-    //Data types
-    //Scalar and Compounds
+    
     /*
-     * Scalar : represents single value, four primary type -> integer, floating-point, boolean and
-     *          characters. New type as compare to C is 128 bit (i128, u128) and arch (iszie, usize)
+     * Data types
+     * Scalar and Compounds
      */
 
     /*
+     * Scalar : represents single value, four primary type -> integer, floating-point, boolean and
+     *          characters. New type as compare to C is 128 bit (i128, u128) and arch (iszie, usize)
      * integer literals Dec 98_22, Hex 0xff, Octal 0o77, Binary 0b1111_0000, Byte(unsigned only, u8) b'A'
      * integer type default to i32
      * In case of integer overflow, rust will panic in debug mode. Im release mode, it will wrap
@@ -49,13 +48,11 @@ fn main() {
     let c = 'c';
     let c: char = 'Z';
 
-
     /*
      * Compound types  - Group multiple values into one type. Rust has two types - Tuples  and
      * arrays
      */
     let tup: (i32, f64, u8) = (500, 1.1, 'c');
-
     //pattern matching to destructure a tuple
     let (x, y, z) = tup;
     println!("The value  of z is {z}");
@@ -69,19 +66,16 @@ fn main() {
     //initial value; size of array
     let a = [3; 5];
     let v = a[0];
-
     //functions
     foo();
     foo_param(10, 'c');
     let y = val(10);
-
     //expression -> added a semicolon and it will conver to statement
     let y = {
         let x = 3;
         //expression
         y = x + 1
     };
-
     //control flow
     if y < 10 {
         println!("y is less than 10");
@@ -115,16 +109,13 @@ fn main() {
         }
         count += 1;
     }
-
     //while loop
     let mut num = 3;
     while num != 0 {
         println!("number {num}");
         num -= 1;
     }
-
     let a = [10, 20, 30, 40];
-
     for ele in a {
         println!("value is {ele}");
     }
@@ -132,10 +123,6 @@ fn main() {
     for num in (1..4).rev() {
         println!("reverse -> {num}");
     }
-
-    
-
-
 }
 
 fn foo() {
