@@ -1,3 +1,8 @@
+
+/*
+ * ownership -> Move and copy, references and slices
+ */
+
 fn main() {
     println!("ownership in rust");
     /*
@@ -48,7 +53,63 @@ fn main() {
     let x4 = String::from("multiple return");
     let (x5, len)  = cal_len(x4);
     println!("the lenght of str {} is {}", x5, len);
+
+    //reference and borrowings
+    //when functions has parameter as reference, values need not be returned to give back ownership
+    //since they naver had any ownership
+    let r1 = String::from("referene");
+    let len = calc_len_ref(&r1);
+    //references are immutable. Not allowed to modify something for which we have a
+    //reference as default. Trick is to make it mutable
+    /*
+     * Below will create error
+     * let a = String::from("error");
+     * change(&a);
+     * fn change(s: &String) {
+     * s.push_str("fixed");
+     * }
+     */
+
+    //Mutuable references
+    let mut r1 = String::from("mutuable");
+    change_mut(&r1);
+
+    /*immutable references and mutable references cannot coexit
+     * example:
+     * let mut s1 = String::from("new");
+     * let s2 = &s1;
+     * let s3 = &s1;
+     * below will cause error
+     * let mut s4 = &s1 
+     * fix: println!("{} {}", s2, s3);
+     * let mut s4 = &s1;
+     */
+
+    //Slices
+    let s = String::from("I am slice");
+
+    let slice = &s[0..2];
+    let slice = &s[..];
+    let slice = &s[3..];
+    let slice = &s[..1];
+
+    let a = [1, 2, 3, 4];
+    let slice = &a[1..2];
+
+    
+
+
+
+
      
+}
+
+fn change_mut(s: &mut String) {
+    s.push_str("-> Modified");
+}
+
+fn calc_len_ref(s: &String) -> usize {
+    s.len()
 }
 
 fn cal_len(s: String) -> (String, usize) {
