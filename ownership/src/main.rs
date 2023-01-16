@@ -9,7 +9,7 @@ fn main() {
      */
 
     //ownership changes if there is a move. 
-    let mut s1 = String::from("ownership");
+    let s1 = String::from("ownership");
     /*move example*/
     //s1 become invalid and cannot be used further since copy trait is not implemented. s2 point to
     //memory pointed  by s1
@@ -17,7 +17,7 @@ fn main() {
     //println!("s1 is {}", s1); <- Leads to compilation error 
    
     //deep copy
-    let s3 = s1.clone();
+    let s3 = s2.clone();
     println!("s2 {} s3 {}", s2, s3);
     
     /*
@@ -48,11 +48,6 @@ fn main() {
     let x4 = String::from("multiple return");
     let (x5, len)  = cal_len(x4);
     println!("the lenght of str {} is {}", x5, len);
-
-
-
-
-     
      
 }
 
@@ -69,10 +64,12 @@ fn take_ownership(x: String){
 fn make_copy(x: i32) {
     println!("variable {}", x)
 }
+
 fn give_ownership() -> String {
     let x = String::from("give");
     x
 }
+
 fn take_and_give_back(s: String) -> String {
     s
 }
