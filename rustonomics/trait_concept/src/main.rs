@@ -1,3 +1,7 @@
+
+//#![feature(isqrt)]
+
+
 /* two function code duplication*/
 fn gt_i32(list : &[i32]) -> &i32 {
 
@@ -41,6 +45,30 @@ let mut num = &list[0];
 
 }
 
+
+
+/*trait methods*/
+
+struct Point<T> {
+    x: T,
+    y: T,
+}
+
+impl<T> Point<T> {
+    fn x(&self) -> &T {
+        &self.x
+    }
+}
+
+impl Point<u32> {
+    fn pows(&self) ->u32 {
+        self.x.pow(2) + self.y.pow(2)
+    }
+}
+
+
+
+
 fn main() {
     println!("trait example TraitImpl<T>");
 
@@ -70,6 +98,11 @@ fn main() {
     let list = vec!['a', 'c', 'o', 'p'];
     let num = gt(&list);
     println!("the largest using trait char {num}");
+
+    let p = Point {x: 1, y: 2};
+
+    println!("point x {}", p.x());
+    println!("pows from 0,0 {}" , p.pows());
  
    
 }
