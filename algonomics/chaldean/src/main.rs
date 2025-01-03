@@ -79,13 +79,16 @@ fn main() {
         println!("");
     }
 
+    /*
+    /*instead of each char mapping consider string mapping*/
     let _chaldean  = vec!["",
                          "aqyij",
     ];
-    print!(" {:?} ", _chaldean);
+    print!(" {:?} ", _chaldean);*/
 
-    let test = String::from("poomale");
-    let name = &args[1];
-    println!("chaldean totla for name {:?} => {}",&name, chaldean_sum(&chaldean, &name));
+    for arg in env::args() {
+    let name = &arg;
+    println!("chaldean total for name {:?} => {}",&name, chaldean_sum(&chaldean, &name));
+    }
 
 }
