@@ -29,7 +29,6 @@ impl Heap {
     }
 
     fn add(&mut self, val: u32) -> u32 {
-        let mut kth = 0;
         self.list.push(val);
         for (i, &x) in self.clone.iter().enumerate() {
             if val < x {
@@ -38,7 +37,7 @@ impl Heap {
                 break;
             }
         }
-        let mut iter = self.k;
+        /*let mut iter = self.k;
 
         for x in self.clone.iter().rev() {
             if iter == 1 {
@@ -46,8 +45,8 @@ impl Heap {
                 break;
             }
             iter -= 1;
-        }
-        kth
+        }*/
+        *self.clone.iter().rev().nth(self.k as usize - 1).unwrap()
     }
 }
 
