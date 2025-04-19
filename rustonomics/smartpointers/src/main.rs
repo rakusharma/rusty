@@ -5,8 +5,29 @@ use std::rc::Rc;
 
 #[derive(Debug)]
 struct Node {
-    x: Vec<u32>,
-    y: Vec<u32>,
+    parent: Vec<Node>,
+    child: Vec<Node>,
+}
+
+fn smartptr() {
+    /*
+     * Illegal code : Below is not allowed in rust due to ownership and borrow rules
+    let mut root: Vec<Node> = Vec::new();
+
+    root.push(Node {
+        parent: Vec::new(),
+        child: Vec::new(),
+    });
+
+    //add one node in child
+
+    root.child.push(Node {
+        parent: root, <-------We are moving ownership here. RED_FLAG: Not allowed. Also you cannot do parent: &root. borrowing and lifetime rules. This will lead to self referential structs and borrow check and lifetime     issues.Better to move to Rc or RefCell.
+        child: Vec::new(),
+    });
+    */
+
+    dbg!(":?", root);
 }
 fn main() {
     //On stack
@@ -62,4 +83,6 @@ fn main() {
 
     //let nody = Node::new(Node { x: &t, y: &t });
     //dbg!(&nody);
+    //
+    smartptr();
 }
