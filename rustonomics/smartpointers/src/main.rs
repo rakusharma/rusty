@@ -1,6 +1,8 @@
 use std::cell::RefCell;
 use std::rc::Rc;
 
+//TODO: Cell, Weak, structure where elements point to child and root (tree)
+
 fn main() {
     //On stack
     let y: u32 = 5;
