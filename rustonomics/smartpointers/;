@@ -1,0 +1,19 @@
+use std::rc::Rc;
+
+fn main() {
+    //On stack
+    let y: u32 = 5;
+    //On heap & non-mutable reference
+    let x = Rc::new(5);
+    let u = Rc::clone(&x);
+    let v = Rc::clone(&x);
+    //below do the ownership tranferring, so not allowed
+    //dbg!(x);
+    //allowed
+    dbg!(&x);
+    dbg!(Rc::strong_count(&x));
+
+    //Now lets have a  rc with mutable
+
+    let x: Rc<Vec<u32>> = Rc::new(vec[]);
+}
