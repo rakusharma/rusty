@@ -3,6 +3,11 @@ use std::rc::Rc;
 
 //TODO: Cell, Weak, structure where elements point to child and root (tree)
 
+#[derive(Debug)]
+struct Node {
+    x: Vec<u32>,
+    y: Vec<u32>,
+}
 fn main() {
     //On stack
     let y: u32 = 5;
@@ -48,4 +53,13 @@ fn main() {
     let test_max = |a, b| println!("max : {:?}", max(a, b));
 
     test_max(a, b);
+
+    let t: Vec<u32> = vec![1, 2, 3, 4];
+    //turbofish
+    let tt = Vec::<u32>::new();
+    /*wtf is this?*/
+    //let ttt = Vec<u32>::new();   -> wrong in rusty
+
+    //let nody = Node::new(Node { x: &t, y: &t });
+    //dbg!(&nody);
 }
