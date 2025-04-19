@@ -11,7 +11,6 @@ Smart pointers in Rust are types that not only act like a pointer but also have 
 - Useful for recursive data types like linked lists or trees.
 
 ### Example:
-```rust
 let b = Box::new(5);
 println!("b = {}", b);
 
