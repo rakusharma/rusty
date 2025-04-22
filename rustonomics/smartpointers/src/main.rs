@@ -1,4 +1,4 @@
-use std::cell::RefCell;
+use std::cell::{RefCell, RefMut, Cell};
 use std::rc::Rc;
 
 //TODO: Cell, Weak, structure where elements point to child and root (tree)
@@ -9,25 +9,48 @@ struct Node {
     child: Vec<Node>,
 }
 
+struct Nodev1 {
+    parent: Rc<RefCell<Weak>>,
+}
 fn smartptr() {
-    /*
-     * Illegal code : Below is not allowed in rust due to ownership and borrow rules
-    let mut root: Vec<Node> = Vec::new();
 
-    root.push(Node {
-        parent: Vec::new(),
-        child: Vec::new(),
-    });
+    
+    // * Illegal code : Below is not allowed in rust due to ownership and borrow rules
+    // let mut root: Vec<Node> = Vec::new();
+    //
+    // root.push(Node {
+    // parent: Vec::new(),
+    // child: Vec::new(),
+    // });
+    //
+    // //add one node in child
+    //
+    // root.child.push(Node {
+    // parent: root, <-------We are moving ownership here. RED_FLAG: Not allowed. Also you cannot do parent: &root. borrowing and lifetime rules. This will lead to self referential structs and borrow check and lifetime     issues.Better to move to Rc or RefCell.
+    // child: Vec::new(),
+    // });
 
-    //add one node in child
+    let shared_val: Rc<RefCell<_>> = Rc::new(RefCell::new(5));
+   // RefMut
+    let mut x: RefMut<'_, _> = shared_val.borrow_mut();
+    /*vector*/
+    let shared_vector: Rc<RefCell<_>> =  Rc::new(RefCell::new(Vec::new()));
+    let mut y : RefMut<'_, _> = shared_vector.borrow_mut();
 
-    root.child.push(Node {
-        parent: root, <-------We are moving ownership here. RED_FLAG: Not allowed. Also you cannot do parent: &root. borrowing and lifetime rules. This will lead to self referential structs and borrow check and lifetime     issues.Better to move to Rc or RefCell.
-        child: Vec::new(),
-    });
-    */
+    y.push(100);
 
-    dbg!(":?", root);
+    // note the Asterix
+    *x = 100;
+    dbg!(":?i {:?}", x, y);
+
+    //Cell
+    //interesting: var is not explicitly as mut but can be modified
+    let var: Cell<_> = Cell::new(5);
+    var.set(100);
+
+    dbg!("{:?}", var);
+
+
 }
 fn main() {
     //On stack
@@ -41,7 +64,6 @@ fn main() {
     //allowed
     dbg!(&x);
     dbg!(Rc::strong_count(&x));
-
     //Now lets have a  rc with mutable
     // first new Rc pointer will be created to track the Vec using reference count
     //Read only data immutable
