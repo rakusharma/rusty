@@ -1,5 +1,5 @@
 use std::cell::{RefCell, RefMut, Cell};
-use std::rc::Rc;
+use std::rc::{Rc, Weak};
 
 //TODO: Cell, Weak, structure where elements point to child and root (tree)
 
@@ -9,12 +9,43 @@ struct Node {
     child: Vec<Node>,
 }
 
+//Tree node with parent and child
 struct Nodev1 {
-    parent: Rc<RefCell<Weak>>,
+
+}
+
+//tree nodes where parent point to child and child point to parent. interesting family :)
+fn pointy_tree(){
+
+}
+
+//weak: mut reference -> interior mutability
+fn weak_strong(){
+
+    let strong = Rc::new(5);
+    let weak = Rc::downgrade(&strong);
+    let again_strong = Weak::upgrade(&weak);
+
+    dbg!(&strong);
+    dbg!(&weak);
+    dbg!(&again_strong);
+
+    //take a weak reference. upgrade and modify
+    //Take RefCell and take Rc of that RefCell
+    let strong_1 = Rc::new(RefCell::new(10));
+    let weak_1:Weak<RefCell<_>>  =  Rc::downgrade(&strong_1);
+
+    dbg!(&strong_1);
+    dbg!(&weak_1);
+
+    if let Some(rc) = weak_1.upgrade() {
+        *rc.borrow_mut() += 1;
+        println!("updated value {:?}", rc.borrow());
+    } else {
+        println!("Rc has been dropped");
+    }
 }
 fn smartptr() {
-
-    
     // * Illegal code : Below is not allowed in rust due to ownership and borrow rules
     // let mut root: Vec<Node> = Vec::new();
     //
@@ -49,8 +80,6 @@ fn smartptr() {
     var.set(100);
 
     dbg!("{:?}", var);
-
-
 }
 fn main() {
     //On stack
@@ -94,7 +123,6 @@ fn main() {
     };
     /*wow nested closures*/
     let test_max = |a, b| println!("max : {:?}", max(a, b));
-
     test_max(a, b);
 
     let t: Vec<u32> = vec![1, 2, 3, 4];
@@ -107,4 +135,5 @@ fn main() {
     //dbg!(&nody);
     //
     smartptr();
+    weak_strong();
 }
