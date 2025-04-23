@@ -1,4 +1,4 @@
-use std::cell::{RefCell, RefMut, Cell};
+use std::cell::{Cell, RefCell, RefMut};
 use std::rc::{Rc, Weak};
 
 //TODO: Cell, Weak, structure where elements point to child and root (tree)
@@ -14,20 +14,18 @@ struct Node {
 struct Nodev1 {
     x: u32,
     parent: RefCell<Weak<Nodev1>>,
-    child: RefCell<Vec<Rc<Nodev1>>>
+    child: RefCell<Vec<Rc<Nodev1>>>,
 }
 
 //tree nodes where parent point to child and child point to parent. interesting family :)
-fn pointy_tree(){
-
-    let root: Rc<_> =   Rc::new(Nodev1 {
+fn pointy_tree() {
+    let root: Rc<_> = Rc::new(Nodev1 {
         x: 1,
         parent: RefCell::new(Weak::new()),
-        child: RefCell::new(vec![]), 
-
+        child: RefCell::new(vec![]),
     });
 
-    let c1: Rc<_> = Rc::new(Nodev1{
+    let c1: Rc<_> = Rc::new(Nodev1 {
         x: 2,
         parent: RefCell::new(Weak::new()),
         child: RefCell::new(vec![]),
@@ -35,11 +33,10 @@ fn pointy_tree(){
 
     root.child.borrow_mut().push(Rc::clone(&c1));
 
-    let c2: Rc<_> = Rc::new(Nodev1{
+    let c2: Rc<_> = Rc::new(Nodev1 {
         x: 3,
         parent: RefCell::new(Weak::new()),
         child: RefCell::new(vec![]),
-
     });
 
     root.child.borrow_mut().push(Rc::clone(&c2));
@@ -49,11 +46,18 @@ fn pointy_tree(){
     dbg!(&root.parent.borrow());
     dbg!(&root.child.borrow());
 
-    match(&root){
-    tmp => {
-        std::eprintln!("[{}:{}:{}] {} = {:#?}",std::file!(),std::line!(),std::column!(),std::stringify!((&root)), &tmp);
-        tmp
-    }
+    match (&root) {
+        tmp => {
+            std::eprintln!(
+                "[{}:{}:{}] {} = {:#?}",
+                std::file!(),
+                std::line!(),
+                std::column!(),
+                std::stringify!((&root)),
+                &tmp
+            );
+            tmp
+        }
     };
 
     let tmp = c1.parent.borrow().upgrade();
@@ -62,13 +66,10 @@ fn pointy_tree(){
     } else {
         println!("Child has not parent")
     }
-    
-
 }
 
 //weak: mut reference -> interior mutability
-fn weak_strong(){
-
+fn weak_strong() {
     let strong = Rc::new(5);
     let weak = Rc::downgrade(&strong);
     let again_strong = Weak::upgrade(&weak);
@@ -80,7 +81,7 @@ fn weak_strong(){
     //take a weak reference. upgrade and modify
     //Take RefCell and take Rc of that RefCell
     let strong_1 = Rc::new(RefCell::new(10));
-    let weak_1:Weak<RefCell<_>>  =  Rc::downgrade(&strong_1);
+    let weak_1: Weak<RefCell<_>> = Rc::downgrade(&strong_1);
 
     dbg!(&strong_1);
     dbg!(&weak_1);
@@ -109,11 +110,11 @@ fn smartptr() {
     // });
 
     let shared_val: Rc<RefCell<_>> = Rc::new(RefCell::new(5));
-   // RefMut
+    // RefMut
     let mut x: RefMut<'_, _> = shared_val.borrow_mut();
     /*vector*/
-    let shared_vector: Rc<RefCell<_>> =  Rc::new(RefCell::new(Vec::new()));
-    let mut y : RefMut<'_, _> = shared_vector.borrow_mut();
+    let shared_vector: Rc<RefCell<_>> = Rc::new(RefCell::new(Vec::new()));
+    let mut y: RefMut<'_, _> = shared_vector.borrow_mut();
 
     y.push(100);
 

@@ -1,6 +1,6 @@
 Standard wrapping:
 
-> Rc<RefCell<T>>
+Rc<RefCell<T>>
 
  - Rc lets you share the data. 
  - RefCell lets you mutate the shared data
@@ -8,10 +8,11 @@ Standard wrapping:
 
 But, you can also have following
 
-> struct Node {
->     value: i32,
->     parent: RefCell<Weak<Node>>,
->     children: RefCell<Vec<Rc<Node>>>, }
+*struct Node {
+    value: i32,
+    parent: RefCell<Weak<*Node*>>,
+    children: RefCell<Vec<Rc<*Node>>>, 
+    }*
 
 This pattern avoids **memory leaks** due to **reference cycles**:
 -   Children own parents weakly.
@@ -25,11 +26,11 @@ This pattern avoids **memory leaks** due to **reference cycles**:
 
 **Q: Generally Rc<RefCell<T>>. so why Refcell<Vec<Rc<Node>>**
 
-struct Node {
+*struct Node {
     value: i32,
-    parent: RefCell<Weak<Node>>,           // interior mutable weak ref
-    children: RefCell<Vec<Rc<Node>>>,      // interior mutable vec of strong refs
-}
+    parent: RefCell<Weak<*Node*>>,           // interior mutable weak ref
+    children: RefCell<Vec<Rc<*Node*>>>,      // interior mutable vec of strong refs
+}*
 ### What’s happening?
 -   The whole `Node` is wrapped in an `Rc<Node>` when used.
 -   Inside the `Node`, the `children` field is a `RefCell<Vec<Rc<Node>>>`.
